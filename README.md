@@ -151,3 +151,17 @@ The UNIQUE constraint is checked by SQLite as part of the write, across processe
 For hosting, run the seed once and start the service on a Node.js host with persistent writable storage. Set `DB_PATH` to that storage and `PORT` as required by the provider. Instances must share this SQLite file on one machine; independent files on separate hosts cannot coordinate reservations. Add HTTPS at the hosting boundary. Do not commit the runtime database, credentials, or `.env`.
 
 The course lesson URL could not be retrieved by the browsing tool. Implementation follows the supplied brief; the lesson remains to be read in the signed-in course session. This repository does not include public hosting or a platform submission status.
+
+## Browser frontend
+
+Open the local homepage after starting the service. The responsive frontend is served by the same Node process as the API; no separate frontend build or dependencies are needed.
+
+Run `npm run seed` once on an empty database before `npm start`. Choose an event, enter a name, and select a free seat to reserve it. Load more seats using cursor pagination. The page displays reservation receipts and conflict/validation errors. `GET /` serves the interface; `GET /events` lists the events.
+
+## Frontend screenshots
+
+Local browser demonstration using isolated sample data.
+
+![Desktop frontend](docs/frontend-desktop.jpg)
+
+<img src="docs/frontend-mobile.jpg" alt="Mobile frontend" width="390">

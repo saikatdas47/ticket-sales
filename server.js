@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import http from 'node:http';
 import { randomUUID } from 'node:crypto';
 import { resolve } from 'node:path';
@@ -36,6 +37,11 @@ export function createService(path) {
   const server = http.createServer(async (req, res) => {
     try {
       const url = new URL(req.url, 'http://localhost');
+      if (req.method === 'GET' && url.pathname === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' });
+        return res.end(readFileSync(new URL('./public/index.html', import.meta.url)));
+      }
+      if (req.method === 'GET' && url.pathname === '/events') return json(res, 200, { items: db.prepare('SELECT id, name, starts_at FROM events ORDER BY id').all() });
       if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true });
       const free = url.pathname.match(/^\/events\/([^/]+)\/seats$/);
       if (req.method === 'GET' && free) {

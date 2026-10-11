@@ -1,0 +1,46 @@
+{
+  "node": "v25.3.0",
+  "counts": {
+    "events": 5,
+    "seats": 10000
+  },
+  "before": [
+    "SEARCH s USING INDEX sqlite_autoindex_seats_1 (event_id=?)",
+    "CORRELATED SCALAR SUBQUERY 1",
+    "SEARCH o USING COVERING INDEX sqlite_autoindex_orders_1 (seat_id=?)",
+    "USE TEMP B-TREE FOR ORDER BY"
+  ],
+  "after": [
+    "SEARCH s USING INDEX seats_event_id_id (event_id=? AND id>?)",
+    "CORRELATED SCALAR SUBQUERY 1",
+    "SEARCH o USING COVERING INDEX sqlite_autoindex_orders_1 (seat_id=?)"
+  ],
+  "milliseconds": {
+    "samples": 200,
+    "warmup": 20,
+    "median": 0.365,
+    "p95": 0.535,
+    "maximum": 1.645
+  },
+  "race": [
+    {
+      "status": 201,
+      "body": {
+        "order": {
+          "id": 1,
+          "seat_id": 1,
+          "customer_name": "Alice",
+          "created_at": "2026-10-11T07:51:17.191Z"
+        }
+      }
+    },
+    {
+      "status": 409,
+      "body": {
+        "error": "conflict",
+        "message": "seat is already reserved"
+      }
+    }
+  ],
+  "ordersForSeat": 1
+}

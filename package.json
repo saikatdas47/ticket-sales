@@ -1,0 +1,13 @@
+{
+  "name": "ticket-sales",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.13.0" },
+  "scripts": {
+    "seed": "node seed.js",
+    "start": "node server.js",
+    "test": "node --test",
+    "measure": "node measure.js"
+  }
+}

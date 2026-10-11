@@ -1,0 +1,2 @@
+{"error":"conflict","message":"seat is already reserved"}
+HTTP 409
